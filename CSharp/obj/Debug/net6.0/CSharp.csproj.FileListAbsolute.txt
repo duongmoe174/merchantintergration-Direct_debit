@@ -1,0 +1,17 @@
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\bin\Debug\net6.0\CSharp.exe
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\bin\Debug\net6.0\CSharp.deps.json
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\bin\Debug\net6.0\CSharp.runtimeconfig.json
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\bin\Debug\net6.0\CSharp.dll
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\bin\Debug\net6.0\CSharp.pdb
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.csproj.AssemblyReference.cache
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.GeneratedMSBuildEditorConfig.editorconfig
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.AssemblyInfoInputs.cache
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.AssemblyInfo.cs
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.csproj.CoreCompileInputs.cache
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.dll
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\refint\CSharp.dll
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.pdb
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.genruntimeconfig.cache
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\ref\CSharp.dll
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.csproj.CopyComplete

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Rr5PTYSXcsoJYIIllM+z9TAE9vv94454zujPvEnongri9QvNNY6VVA5hevL6JsXAmbzlq3/gcF238zhh8b5+Xw==",
+  "success": true,
+  "projectFilePath": "E:\\MerchantImplementation\\samplecode\\DirectDebitSampleCode\\CSharp\\CSharp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\duongtd\\.nuget\\packages\\bouncycastle.netcore\\2.2.1\\bouncycastle.netcore.2.2.1.nupkg.sha512"
+  ],
+  "logs": []
+}

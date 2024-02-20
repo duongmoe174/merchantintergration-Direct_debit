@@ -1,0 +1,21 @@
+Config:
+  merchant_id: "OPTEST"
+  base_url: "https://dev.onepay.vn"
+  url_prefix: "/paygate/api/rest/v1/"
+  alg: "ed25519"
+
+Param:
+  MERCHANTS: "merchants"
+  DD_TOKENS: "dd_tokens"
+  PAYMENTS_DDT: "payments_ddt"
+  TOKENIZE_DIRECT_DEBIT: "TOKENIZE_DIRECT_DEBIT"
+  DIRECT_DEBIT_TOKEN: "DIRECT_DEBIT_TOKEN"
+  PURCHASE_DIRECT_DEBIT: "PURCHASE_DIRECT_DEBIT"
+  APPLICATION_JSON: "application/json"
+  CONTENT_TYPE: "Content-Type"
+  CONTENT_LENGTH: "Content-Length"
+  CONTENT_DIGEST: "Content-Digest"
+  SIGNATURE_INPUT: "Signature-Input"
+  SIGNATURE: "Signature"
+  DELETE_TOKEN_DIRECT_DEBIT: "DELETE_TOKEN_DIRECT_DEBIT"
+  DELETIONS: "deletions"
