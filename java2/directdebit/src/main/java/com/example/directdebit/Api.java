@@ -144,7 +144,7 @@ public class Api {
 
       String reference = "PAYMENTDDT_" + System.currentTimeMillis();
 
-      String path = Config.URL_PREFIX + "merchants" + "/" + merchantId + "/" + IConstants.PAYMENTS_DDT + "/"
+      String path = Config.URL_PREFIX + IConstants.MERCHANTS + "/" + merchantId + "/" + IConstants.PAYMENTS_DDT + "/"
           + reference;
 
       long unixCurrentTime = System.currentTimeMillis() / 1000L;
@@ -229,7 +229,7 @@ public class Api {
     try {
       String method = IConstants.GET;
 
-      String path = Config.URL_PREFIX + "merchants" + "/" + merchantId + "/" + IConstants.PAYMENTS_DDT + "/"
+      String path = Config.URL_PREFIX + IConstants.MERCHANTS + "/" + merchantId + "/" + IConstants.PAYMENTS_DDT + "/"
           + merchantTxnRef;
 
       long unixCurrentTime = System.currentTimeMillis() / 1000L;
@@ -270,7 +270,7 @@ public class Api {
 
       String reference = "DELETETOKEN_" + System.currentTimeMillis();
 
-      String path = Config.URL_PREFIX + "merchants" + "/" + merchantId + "/" + IConstants.DD_TOKEN + "/"
+      String path = Config.URL_PREFIX + IConstants.MERCHANTS + "/" + merchantId + "/" + IConstants.DD_TOKEN + "/"
           + token + "/" + IConstants.DELETIONS + "/" + reference;
 
       long unixCurrentTime = System.currentTimeMillis() / 1000L;

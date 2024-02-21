@@ -2,7 +2,7 @@ package com.example.directdebit;
 
 public class Main {
   public static void main(String[] args) {
-    tokenRegistration();
+    retrieveRegisteredTokenInformation();
   }
 
   private static void tokenRegistration() {
@@ -12,7 +12,7 @@ public class Main {
 
   private static void retrieveRegisteredTokenInformation() {
     String merchantId = Config.MERCHANT_ID;
-    String merchantTokenRef = "DUONGTTTOKEN_1707296192956";
+    String merchantTokenRef = "DUONGTTTOKEN_1708486760333";
     Api.retrieveRegisteredTokenInformation(merchantId, merchantTokenRef);
   }
 

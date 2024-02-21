@@ -8,7 +8,7 @@ namespace AppUtil
 {
   public class Util
   {
-    public static async Task HttpGetRequest(string url, IDictionary<string, string> headerRequest)
+    public static async Task HttpGetRequest(string url, Dictionary<string, string> headerRequest)
     {
       Console.WriteLine("========== start call http get =========");
       Console.WriteLine(url);
@@ -46,13 +46,13 @@ namespace AppUtil
       }
     }
 
-    public static async Task HttpPutRequest(string url, string content, IDictionary<string, string> headerRequest)
+    public static async Task HttpPutRequest(string url, string content, Dictionary<string, string> headerRequest)
     {
       Console.WriteLine("========== start call http put =========");
       Console.WriteLine(url);
       HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
       request.Method = "PUT";
-      request.ContentType = "application/json";
+      //request.ContentType = "application/json";
       foreach (var entry in headerRequest)
       {
         string key = entry.Key;
@@ -92,13 +92,13 @@ namespace AppUtil
       }
     }
 
-    public static async Task HttpPostRequest(string url, string content, IDictionary<string, string> headerRequest)
+    public static async Task HttpPostRequest(string url, string content, Dictionary<string, string> headerRequest)
     {
       Console.WriteLine("========== start call http post =========");
       Console.WriteLine(url);
       HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
       request.Method = "POST";
-      request.ContentType = "application/json";
+      //request.ContentType = "application/json";
 
       foreach (var entry in headerRequest)
       {
@@ -198,7 +198,7 @@ namespace AppUtil
     {
       Dictionary<string, string> header = new Dictionary<string, string>();
       header.Add(IConstants.SIGNATURE_INPUT, signatureInput);
-      header.Add(IConstants.SIGNATURE, signature);
+      header.Add(IConstants.SIGNATURE, "sig=:" + signature + ":");
       return header;
     }
 

@@ -6,25 +6,48 @@ public class Program
 {
         static void Main(string[] agrs)
         {
-                TokenRegistration();
+                RetrieveTokenDeletionInfo();
         }
-        private static void testSign()
-        {
-                string stringToSign = "\"@method\": PUT\n" +
-                "\"@path\": /paygate/api/rest/v1/merchants/OPTEST/dd_tokens/DUONGTTTOKEN_1707196828629206900\n"
-                +
-                "\"content-digest\": sha-256=:YUd7b09NPdDjyrNveLs3KHbzxlzGRlU0+R69rpl7c9Y=:\n" +
-                "\"content-type\": application/json\n" +
-                "\"content-length\": 450\n" +
-                "\"@signature-params\": (\"@method\" \"@path\" \"content-digest\" \"content-type\" \"content-length\");created=1707196828;expires=1707197128;keyid=\"OPTEST\";alg=\"ed25519\"";
-                string signature = Auth.MakeSign(stringToSign);
-                Console.WriteLine("Signature: " + signature);
-        }
-
         private static void TokenRegistration()
         {
                 string merchantId = Config.MERCHANT_ID;
                 Api.TokenRegistration(merchantId);
+        }
+
+        private static void RetrieveRegisteredTokenInformation()
+        {
+                string merchantId = Config.MERCHANT_ID;
+                string merchantTokenRef = "DUONGTTTOKEN_1708486760333";
+                Api.RetrieveRegisteredTokenInformation(merchantId, merchantTokenRef);
+        }
+
+        private static void PaymentWithRegisteredToken()
+        {
+                string merchantId = Config.MERCHANT_ID;
+                string merchantToken = "TKN-bTpVL1w5SYi21LyNsItkwA";
+                Api.PaymentWithRegisteredToken(merchantId, merchantToken);
+        }
+
+        private static void RetrievePaymentInformation()
+        {
+                string merchantId = Config.MERCHANT_ID;
+                string merchantTxnRef = "PAYMENTDDT_1708492392353";
+                Api.RetrievePaymentInformation(merchantId, merchantTxnRef);
+        }
+
+        private static void DeleteToken()
+        {
+                string merchantId = Config.MERCHANT_ID;
+                string merchantToken = "TKN-bTpVL1w5SYi21LyNsItkwA";
+                Api.DeleteToken(merchantId, merchantToken);
+        }
+
+        private static void RetrieveTokenDeletionInfo()
+        {
+                string merchantId = Config.MERCHANT_ID;
+                string merchantToken = "TKN-bTpVL1w5SYi21LyNsItkwA";
+                string merchantDelRef = "DELETETOKEN_1708501951420";
+                Api.RetrieveTokenDeletionInfo(merchantId, merchantToken, merchantDelRef);
         }
 }
 
