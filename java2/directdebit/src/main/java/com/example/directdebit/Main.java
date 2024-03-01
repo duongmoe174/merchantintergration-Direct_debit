@@ -2,7 +2,7 @@ package com.example.directdebit;
 
 public class Main {
   public static void main(String[] args) {
-    retrieveRegisteredTokenInformation();
+    deleteToken();
   }
 
   private static void tokenRegistration() {

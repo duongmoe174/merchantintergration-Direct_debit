@@ -67,6 +67,7 @@ public class Api {
 
       byte[] hashPayload = Util.sha256Hash(jsonContent);
       String contentDigest = "sha-256=:" + Base64.getEncoder().encodeToString(hashPayload) + ":";
+      System.out.println("contentDigest: " + contentDigest);
 
       String contentType = IConstants.APPLICATION_JSON;
 
