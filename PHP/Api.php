@@ -1,8 +1,8 @@
 <?php
-include 'Auth.php';
-include 'Util.php';
-include 'Config.php';
-include 'IConstants.php';
+include_once 'Auth.php';
+include_once 'Util.php';
+include_once 'Config.php';
+include_once 'IConstants.php';
 
 class Api
 {
@@ -11,7 +11,7 @@ class Api
     $auth = new Auth();
     $util = new Util();
 
-    $method = GET;
+    $method = PUT;
 
     $createTime = time() . "";
     $expireTime = $createTime . (5 * 60) . "";
@@ -48,24 +48,24 @@ class Api
       ]
     ];
     $jsonContent = json_encode($bodyContent, JSON_UNESCAPED_SLASHES);
-    $hashPayload = $util->sha256Hash($jsonContent);
-    $contentType = APPLICATION_JSON;
+    $hashPayload = hash('sha256', $jsonContent, true);
     $contentDigest = "sha-256=:" . base64_encode($hashPayload) . ":";
+    $contentType = APPLICATION_JSON;
     $contentLength = strlen($jsonContent);
     $stringToSign = $util->generateStringToSign($method, $path, $contentType, $contentLength, $contentDigest, $createTime, $expireTime);
     $signature = $auth->makeSign($stringToSign);
     $signatureInput = $util->createSignatureInput($method, $createTime, $expireTime);
 
     $headerRequest = $util->createHeaderRequest($signatureInput, $signature, $contentType, $contentLength, $contentDigest);
-
+    $headerLog = implode(", ", $headerRequest);
     $urlRequest = BASE_URL . $path;
 
-    echo "urlRequest: " . $urlRequest . "\n";
-    echo "bodyContent: " . $jsonContent . "\n";
-    echo "HeaderRequest: " . $headerRequest . "\n";
-    echo "StringToSign: " . $stringToSign . "\n";
-    echo "signatureInput: " . $signatureInput . "\n";
-    echo "signature: " . $signature . "\n";
+    print_r("urlRequest: " . $urlRequest . "\n");
+    print_r("bodyContent: " . $jsonContent . "\n");
+    print_r("HeaderRequest: " . $headerLog . "\n");
+    print_r("StringToSign: " . $stringToSign . "\n");
+    print_r("signatureInput: " . $signatureInput . "\n");
+    print_r("signature: " . $signature . "\n");
 
     $util->callPutRequest($urlRequest, $jsonContent, $headerRequest);
   }

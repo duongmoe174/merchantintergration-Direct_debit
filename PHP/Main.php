@@ -1,6 +1,6 @@
 <?php
-include 'Api.php';
-include 'Config.php';
+include_once 'Api.php';
+include_once 'Config.php';
 
 
 function main()

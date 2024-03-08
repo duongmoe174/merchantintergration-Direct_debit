@@ -1,7 +1,7 @@
 <?php
 
-include 'Config.php';
-include 'IConstants.php';
+include_once 'Config.php';
+include_once 'IConstants.php';
 
 class Util
 {
@@ -140,16 +140,16 @@ class Util
         $header = array();
         if ($contentType != "" && $contentLength != "" && $contentDigest) {
             $header = array(
-                CONTENT_TYPE => $contentType,
-                CONTENT_LENGTH => $contentLength,
-                CONTENT_DIGEST => $contentDigest,
-                SIGNATURE_INPUT => $signatureInput,
-                SIGNATURE => "sig=:" . $signature . ":"
+                CONTENT_TYPE . ":" . $contentType,
+                CONTENT_LENGTH . ":" . $contentLength,
+                CONTENT_DIGEST . ":" . $contentDigest,
+                SIGNATURE_INPUT . ":" . $signatureInput,
+                SIGNATURE . ":" . "sig=:" . $signature . ":"
             );
         } else {
             $header = array(
-                SIGNATURE_INPUT => $signatureInput,
-                SIGNATURE => "sig=:" . $signature . ":"
+                SIGNATURE_INPUT . ":" . $signatureInput,
+                SIGNATURE . ":" . "sig=:" . $signature . ":"
             );
         }
         return $header;
