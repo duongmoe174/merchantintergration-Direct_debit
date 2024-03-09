@@ -73,34 +73,20 @@ class Util
         print_r($response);
     }
 
-    function sha256Hash($data)
-    {
-        return hash('sha256', $data);
-    }
-
-    function hmacSha256($key, $data)
-    {
-        return hash_hmac('sha256', $data, $key);
-    }
-    function hmacSha256Hex($key, $data)
-    {
-        return hash_hmac('sha256', $data, pack('H*', $key));
-    }
-
     function createSignatureInput($method, $createTime, $expireTime)
     {
         $result = "";
         switch ($method) {
-            case GET:
+            case IConstants::GET:
                 $result = "sig=(\"@method\" \"@path\")" . ";" . "created=" . $createTime . ";" . "expires="
-                    . $expireTime . ";" . "keyid=" . "\"" . MERCHANT_ID . "\"" . ";" . "alg=" . "\"" . ALG
+                    . $expireTime . ";" . "keyid=" . "\"" . Config::MERCHANT_ID . "\"" . ";" . "alg=" . "\"" . Config::ALG
                     . "\"";
                 break;
-            case POST:
-            case PUT:
+            case IConstants::POST:
+            case IConstants::PUT:
                 $result = "sig=(\"@method\" \"@path\" \"content-digest\" \"content-type\" \"content-length\")"
                     . ";" . "created=" . $createTime . ";" . "expires=" . $expireTime . ";" . "keyid=" . "\""
-                    . MERCHANT_ID . "\"" . ";" . "alg=" . "\"" . ALG . "\"";
+                    . Config::MERCHANT_ID . "\"" . ";" . "alg=" . "\"" . Config::ALG . "\"";
                 break;
             default:
                 $result = "";
@@ -119,8 +105,8 @@ class Util
             $signContentLength = "\"content-length\": " . $contentLength;
             $signParam = "\"@signature-params\": (\"@method\" \"@path\" \"content-digest\" \"content-type\" \"content-length\")"
                 . ";" . "created=" . $createTime . ";" . "expires=" . $expireTime . ";" . "keyid=" . "\""
-                . MERCHANT_ID
-                . "\"" . ";" . "alg=" . "\"" . ALG . "\"";
+                . Config::MERCHANT_ID
+                . "\"" . ";" . "alg=" . "\"" . Config::ALG . "\"";
             $result = $signMethod . "\n" . $signPath . "\n" . $signContentDigest . "\n" . $signContentType . "\n"
                 . $signContentLength . "\n" . $signParam;
         } else {
@@ -128,8 +114,8 @@ class Util
             $signPath = "\"@path\": " . $path;
             $signParam = "\"@signature-params\": (\"@method\" \"@path\")"
                 . ";" . "created=" . $createTime . ";" . "expires=" . $expireTime . ";" . "keyid=" . "\""
-                . MERCHANT_ID
-                . "\"" . ";" . "alg=" . "\"" . ALG . "\"";
+                . Config::MERCHANT_ID
+                . "\"" . ";" . "alg=" . "\"" . Config::ALG . "\"";
             $result = $signMethod . "\n" . $signPath . "\n" . $signParam;
         }
         return $result;
@@ -140,16 +126,16 @@ class Util
         $header = array();
         if ($contentType != "" && $contentLength != "" && $contentDigest) {
             $header = array(
-                CONTENT_TYPE . ":" . $contentType,
-                CONTENT_LENGTH . ":" . $contentLength,
-                CONTENT_DIGEST . ":" . $contentDigest,
-                SIGNATURE_INPUT . ":" . $signatureInput,
-                SIGNATURE . ":" . "sig=:" . $signature . ":"
+                IConstants::CONTENT_TYPE . ":" . $contentType,
+                IConstants::CONTENT_LENGTH . ":" . $contentLength,
+                IConstants::CONTENT_DIGEST . ":" . $contentDigest,
+                IConstants::SIGNATURE_INPUT . ":" . $signatureInput,
+                IConstants::SIGNATURE . ":" . "sig=:" . $signature . ":"
             );
         } else {
             $header = array(
-                SIGNATURE_INPUT . ":" . $signatureInput,
-                SIGNATURE . ":" . "sig=:" . $signature . ":"
+                IConstants::SIGNATURE_INPUT . ":" . $signatureInput,
+                IConstants::SIGNATURE . ":" . "sig=:" . $signature . ":"
             );
         }
         return $header;
