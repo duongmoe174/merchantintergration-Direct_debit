@@ -31,8 +31,8 @@ public class Api {
       Map<String, Object> bodyContent = new HashMap<>();
 
       Map<String, Object> browserPayment = new HashMap<>();
-      browserPayment.put("returnUrl", "https://dev.onepay.vn/ldp/direct-debit/result");
-      browserPayment.put("callbackUrl", "https://dev.onepay.vn/paygate/api/rest/v1/ipn");
+      browserPayment.put("returnUrl", "https://mtf.onepay.vn/ldp/direct-debit/result");
+      browserPayment.put("callbackUrl", "https://mtf.onepay.vn/paygate/api/rest/v1/ipn");
 
       Map<String, Object> customer = new HashMap<>();
       Map<String, Object> customerAccount = new HashMap<>();
@@ -92,7 +92,14 @@ public class Api {
       logger.info("signatureInput: " + signatureInput);
       logger.info("signature: " + signature);
 
-      Util.executePut(urlRequest, headerRequest, jsonContent);
+      logger.info("============== HTTP RESPOSNE DATA ==============");
+      Map<String, Object> responseData = Util.executePut2(urlRequest, headerRequest, jsonContent);
+
+      for (Map.Entry<String, Object> entry : responseData.entrySet()) {
+        String key = entry.getKey();
+        Object value = entry.getValue();
+        logger.info(key + " : " + value);
+      }
 
     } catch (Exception e) {
       // TODO: handle exception
@@ -284,8 +291,8 @@ public class Api {
       Map<String, Object> bodyContent = new HashMap<>();
 
       Map<String, Object> browserPayment = new HashMap<>();
-      browserPayment.put("returnUrl", "https://dev.onepay.vn/ldp/direct-debit/result");
-      browserPayment.put("callbackUrl", "https://dev.onepay.vn/paygate/api/rest/v1/ipn");
+      browserPayment.put("returnUrl", "https://mtf.onepay.vn/ldp/direct-debit/result");
+      browserPayment.put("callbackUrl", "https://mtf.onepay.vn/paygate/api/rest/v1/ipn");
 
       Map<String, Object> customer = new HashMap<>();
       Map<String, Object> customerAccount = new HashMap<>();

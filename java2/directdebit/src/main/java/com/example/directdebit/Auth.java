@@ -1,46 +1,25 @@
 package com.example.directdebit;
 
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.Security;
-import java.security.Signature;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.logging.Logger;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
+import org.bouncycastle.crypto.signers.Ed25519Signer;
 import org.bouncycastle.util.encoders.Base64;
 
 public class Auth {
   public static final Logger logger = Logger.getLogger(Auth.class.getName());
 
-  public static final String testKeyEd25519 = "-----BEGIN PRIVATE KEY-----\n" +
-      "MC4CAQAwBQYDK2VwBCIEIJ+DYvh6SEqVTm50DFtMDoQikTmiCqirVv9mWG9qfSnF\n" +
-      "-----END PRIVATE KEY-----";
-  public static final String testKeyEd25519Pub = "-----BEGIN PRIVATE KEY-----\n" +
-      "MCowBQYDK2VwAyEAJrQLj5P/89iXES9+vFgrIy29clF9CC/oPPsw3c5D0bs=\n" +
-      "-----END PRIVATE KEY-----";
+  public static final String FINAL_KEY = "yq6zIGeQK99dfX/pm8nLeq1e1tKmdfVTUmvjdtJKQ/VhVOzoGix3EwvAiqzPl7eCTb0vEyJQlzorLSaLOF4oDg==";
 
   public static String makeSign(String stringToSign) {
-    try {
-      Security.addProvider(new BouncyCastleProvider());
-      byte[] privateKeyBytes = Base64.decode(testKeyEd25519.replace("-----BEGIN PRIVATE KEY-----", "")
-          .replace("-----END PRIVATE KEY-----", "")
-          .replace("\n", ""));
-
-      PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
-      KeyFactory keyFactory = KeyFactory.getInstance("Ed25519", "BC");
-      PrivateKey privateKey = keyFactory.generatePrivate(privateKeySpec);
-
-      Signature signature = Signature.getInstance("Ed25519", "BC");
-      signature.initSign(privateKey);
-      signature.update(stringToSign.getBytes());
-
-      byte[] signatureBytes = signature.sign();
-      return Base64.toBase64String(signatureBytes);
-
-    } catch (Exception e) {
-      logger.info(e.getMessage());
-      return null;
-    }
+    byte[] privateKeyBytes = Base64.decode(FINAL_KEY);
+    Ed25519PrivateKeyParameters privateKeyParameters = new Ed25519PrivateKeyParameters(privateKeyBytes, 0);
+    Ed25519Signer signer = new Ed25519Signer();
+    signer.init(true, privateKeyParameters);
+    byte[] stringToSignBytes = stringToSign.getBytes();
+    signer.update(stringToSignBytes, 0, stringToSignBytes.length);
+    byte[] signatureBytes = signer.generateSignature();
+    return Base64.toBase64String(signatureBytes);
   }
 
   public static void main(String[] args) {

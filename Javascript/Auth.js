@@ -1,29 +1,16 @@
-const crypto = require("crypto");
+const nacl = require("tweetnacl");
 
-// Đọc khóa từ chuỗi PEM
-const privateKeyPEM = `-----BEGIN PRIVATE KEY-----
-MC4CAQAwBQYDK2VwBCIEIJ+DYvh6SEqVTm50DFtMDoQikTmiCqirVv9mWG9qfSnF
------END PRIVATE KEY-----`;
+const FINAL_KEY =
+  "yq6zIGeQK99dfX/pm8nLeq1e1tKmdfVTUmvjdtJKQ/VhVOzoGix3EwvAiqzPl7eCTb0vEyJQlzorLSaLOF4oDg==";
 
 function makeSign(stringToSign) {
-  // Chuyển đổi khóa PEM thành buffer
-  const privateKeyBuffer = Buffer.from(privateKeyPEM, "utf-8");
-
-  // Tạo đối tượng khóa từ khóa PEM
-  const privateKeyObject = crypto.createPrivateKey({
-    key: privateKeyBuffer,
-    format: "pem",
-    type: "pkcs8",
-  });
-
-  // Ký dữ liệu
-  const signature = crypto.sign(null, Buffer.from(stringToSign), {
-    key: privateKeyObject,
-    padding: crypto.constants.RSA_PKCS1_PSS_PADDING,
-    saltLength: 32,
-  });
-
-  return signature.toString("base64");
+  const privateKeyBuffer = Buffer.from(FINAL_KEY, "base64");
+  const signature = nacl.sign.detached(
+    Buffer.from(stringToSign),
+    privateKeyBuffer
+  );
+  const signatureBase64 = Buffer.from(signature).toString("base64");
+  return signatureBase64;
 }
 
 // Dữ liệu cần ký

@@ -2,27 +2,19 @@ package main
 
 import (
 	"crypto/ed25519"
-	"crypto/x509"
 	"encoding/base64"
-	"encoding/pem"
+	"fmt"
 )
 
-var testKeyEd25519 = `
------BEGIN PRIVATE KEY-----
-MC4CAQAwBQYDK2VwBCIEIJ+DYvh6SEqVTm50DFtMDoQikTmiCqirVv9mWG9qfSnF
------END PRIVATE KEY-----
-`
-
-var testKeyEd25519Pub = `
------BEGIN PUBLIC KEY-----
-MCowBQYDK2VwAyEAJrQLj5P/89iXES9+vFgrIy29clF9CC/oPPsw3c5D0bs=
------END PUBLIC KEY-----
-`
+var finalKey = `yq6zIGeQK99dfX/pm8nLeq1e1tKmdfVTUmvjdtJKQ/VhVOzoGix3EwvAiqzPl7eCTb0vEyJQlzorLSaLOF4oDg==`
 
 func Signature(signingString string) (str string, err error) {
-	blockPrivate, _ := pem.Decode([]byte(testKeyEd25519))
-	pki, _ := x509.ParsePKCS8PrivateKey(blockPrivate.Bytes)
-	pk := pki.(ed25519.PrivateKey)
-	data := ed25519.Sign(pk, []byte(signingString))
-	return base64.StdEncoding.EncodeToString(data), nil
+	keyBytes, err := base64.StdEncoding.DecodeString(finalKey)
+	if err != nil {
+		fmt.Println("Error decoding base64:", err)
+		return
+	}
+	privateKey := ed25519.PrivateKey(keyBytes)
+	signature := ed25519.Sign(privateKey, []byte(signingString))
+	return base64.StdEncoding.EncodeToString(signature), nil
 }

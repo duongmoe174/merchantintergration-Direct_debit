@@ -1,6 +1,6 @@
 Config:
-  merchant_id: "OPTEST"
-  base_url: "https://dev.onepay.vn"
+  merchant_id: "TESTONEPAY50"
+  base_url: "https://mtf.onepay.vn"
   url_prefix: "/paygate/api/rest/v1/"
   alg: "ed25519"
 

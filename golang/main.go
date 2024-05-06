@@ -3,7 +3,12 @@ package main
 func main() {
 	LoadConfig()
 
-	retrieveTokenDeletionInfo()
+	tokenRegistration2()
+}
+
+func tokenRegistration2() {
+	merchantId := AppConfig.MerchantId
+	TokenRegistration2(merchantId)
 }
 
 func tokenRegistration() {

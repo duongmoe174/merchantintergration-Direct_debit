@@ -5,7 +5,7 @@ include_once 'Config.php';
 
 function main()
 {
-    retrieveTokenDeletionInfo();
+    tokenRegistration();
 }
 
 function tokenRegistration()

@@ -22,8 +22,8 @@ class Api
 
     $bodyContent = [
       "browserPayment" => [
-        "callbackUrl" => "https://dev.onepay.vn/paygate/api/rest/v1/ipn",
-        "returnUrl" => "https://dev.onepay.vn/ldp/direct-debit/result"
+        "callbackUrl" => "https://mtf.onepay.vn/paygate/api/rest/v1/ipn",
+        "returnUrl" => "https://mtf.onepay.vn/ldp/direct-debit/result"
       ],
       "apiOperation" => IConstants::TOKENIZE_DIRECT_DEBIT,
       "sourceOfFunds" => [
@@ -206,8 +206,8 @@ class Api
 
     $bodyContent = [
       "browserPayment" => [
-        "callbackUrl" => "https://dev.onepay.vn/paygate/api/rest/v1/ipn",
-        "returnUrl" => "https://dev.onepay.vn/ldp/direct-debit/result",
+        "callbackUrl" => "https://mtf.onepay.vn/paygate/api/rest/v1/ipn",
+        "returnUrl" => "https://mtf.onepay.vn/ldp/direct-debit/result",
       ],
       "apiOperation" => IConstants::DELETE_TOKEN_DIRECT_DEBIT,
       "locale" => "vi",

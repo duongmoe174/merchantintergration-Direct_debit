@@ -14,4 +14,5 @@ E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6
 E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.genruntimeconfig.cache
 E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\ref\CSharp.dll
 E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\bin\Debug\net6.0\BouncyCastle.Crypto.dll
-E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.csproj.CopyComplete
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.sourcelink.json
+E:\MerchantImplementation\samplecode\DirectDebitSampleCode\CSharp\obj\Debug\net6.0\CSharp.csproj.Up2Date

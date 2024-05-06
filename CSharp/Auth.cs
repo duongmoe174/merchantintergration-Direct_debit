@@ -1,30 +1,29 @@
 /* dotnet add package BouncyCastle.NetCore --version 2.2.1 */
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto.Signers;
-using Org.BouncyCastle.OpenSsl;
-using System.Text;
+using Org.BouncyCastle.Security;
+
 namespace AuthDD
 {
     public class Auth
     {
-        public static readonly string ed25519pkcs8 = @"-----BEGIN PRIVATE KEY-----
-                        MC4CAQAwBQYDK2VwBCIEIJ+DYvh6SEqVTm50DFtMDoQikTmiCqirVv9mWG9qfSnF
-                        -----END PRIVATE KEY-----";
+        public static readonly string FINAL_KEY = "yq6zIGeQK99dfX/pm8nLeq1e1tKmdfVTUmvjdtJKQ/VhVOzoGix3EwvAiqzPl7eCTb0vEyJQlzorLSaLOF4oDg==";
 
         public static string MakeSign(string stringToSign)
         {
-            PemReader pemReaderPrivate = new PemReader(new StringReader(ed25519pkcs8));
-            Ed25519PrivateKeyParameters ed25519pkcs8Parameters = (Ed25519PrivateKeyParameters)pemReaderPrivate.ReadObject();
+            byte[] keyBytes = Convert.FromBase64String(FINAL_KEY);
+            Ed25519PrivateKeyParameters privateKeyParameters = new Ed25519PrivateKeyParameters(keyBytes, 0);
 
-            // Sign
-            byte[] dataToSign = Encoding.UTF8.GetBytes(stringToSign);
-            ISigner signer = new Ed25519Signer();
-            signer.Init(true, ed25519pkcs8Parameters);
-            signer.BlockUpdate(dataToSign, 0, dataToSign.Length);
+            ISigner signer = SignerUtilities.GetSigner("Ed25519");
+            signer.Init(true, privateKeyParameters);
+
+            byte[] stringToSignBytes = System.Text.Encoding.UTF8.GetBytes(stringToSign);
+
+            signer.BlockUpdate(stringToSignBytes, 0, stringToSignBytes.Length);
             byte[] signatureBytes = signer.GenerateSignature();
-            string signatureStr = Convert.ToBase64String(signatureBytes);
-            return signatureStr;
+
+            string signatureBase64 = Convert.ToBase64String(signatureBytes);
+            return signatureBase64;
         }
     }
 }

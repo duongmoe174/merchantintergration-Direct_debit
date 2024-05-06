@@ -6,7 +6,7 @@ public class Program
 {
         static void Main(string[] agrs)
         {
-                RetrieveTokenDeletionInfo();
+                TokenRegistration();
         }
         private static void TokenRegistration()
         {

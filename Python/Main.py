@@ -3,7 +3,7 @@ from Config import Config
 
 
 def main():
-    retrieve_token_deletion_info()
+    token_registration()
 
 
 def token_registration():

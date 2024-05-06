@@ -2,7 +2,7 @@ const Api = require("./Api");
 const Config = require("./Config");
 
 function main() {
-  retrieveTokenDeletionInfo();
+  tokenRegistration();
 }
 
 function tokenRegistration() {

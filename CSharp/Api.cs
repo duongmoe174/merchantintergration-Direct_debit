@@ -25,7 +25,7 @@ namespace AppApi
             JsonObject bodyContent = new JsonObject();
 
             JsonObject browserPayment = new JsonObject();
-            browserPayment.Add("returnUrl", "https://dev.onepay.vn/ldp/direct-debit/result");
+            browserPayment.Add("returnUrl", "https://mtf.onepay.vn/ldp/direct-debit/result");
             browserPayment.Add("callbackUrl", "https://webhook.site/8a44a824-8477-4086-8680-324a99ec8bc0");
 
             JsonObject customer = new JsonObject();
@@ -253,8 +253,8 @@ namespace AppApi
             JsonObject bodyContent = new JsonObject();
 
             JsonObject browserPayment = new JsonObject();
-            browserPayment.Add("returnUrl", "https://dev.onepay.vn/ldp/direct-debit/result");
-            browserPayment.Add("callbackUrl", "https://dev.onepay.vn/paygate/api/rest/v1/ipn");
+            browserPayment.Add("returnUrl", "https://mtf.onepay.vn/ldp/direct-debit/result");
+            browserPayment.Add("callbackUrl", "https://mtf.onepay.vn/paygate/api/rest/v1/ipn");
 
             JsonObject customer = new JsonObject();
             JsonObject customerAccount = new JsonObject();

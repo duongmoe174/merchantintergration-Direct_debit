@@ -1,5 +1,5 @@
-const MERCHANT_ID = "TESTAPP";
-const BASE_URL = "https://dev.onepay.vn";
+const MERCHANT_ID = "TESTONEPAY50";
+const BASE_URL = "https://mtf.onepay.vn";
 const URL_PREFIX = "/paygate/api/rest/v1/";
 const ALG = "ed25519";
 

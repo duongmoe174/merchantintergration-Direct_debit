@@ -83,6 +83,91 @@ type DELETE_TOKEN_BODY struct {
 	Locale string `json:"locale"`
 }
 
+func TokenRegistration2(merchantId string) {
+	method := "PUT"
+	// Get the current time
+	currentTime := time.Now()
+	fiveMinutesLater := currentTime.Add(5 * time.Minute)
+	// Convert the current time to Unix timestamp (in seconds)
+	createTime := strconv.FormatInt(currentTime.Unix(), 10)
+	expireTime := strconv.FormatInt(fiveMinutesLater.Unix(), 10)
+
+	currentTimeMilisecond := time.Now().UnixNano()
+	reference := "DUONGTTTOKEN_" + fmt.Sprintf("%d", currentTimeMilisecond)
+
+	path := AppConfig.UrlPrefix + "merchants" + "/" + merchantId + "/" + AppParam.DD_TOKENS + "/" + reference
+
+	bodyRequest := TOKEN_REG_BODY{
+		ApiOperation: AppParam.TOKENIZE_DIRECT_DEBIT,
+		BrowserPayment: struct {
+			ReturnURL   string "json:\"returnUrl\""
+			CallBackURL string "json:\"callbackUrl\""
+		}{ReturnURL: "https://mtf.onepay.vn/ldp/direct-debit/result", CallBackURL: "https://mtf.onepay.vn/paygate/api/rest/v1/ipn"},
+		Customer: struct {
+			Account struct {
+				ID string "json:\"id\""
+			} "json:\"account\""
+			Email string "json:\"email\""
+			Name  string "json:\"name\""
+			Phone string "json:\"phone\""
+		}{Account: struct {
+			ID string "json:\"id\""
+		}{ID: "000000001"}, Email: "duongtt@onepay.vn", Name: "TRAN THAI DUONG", Phone: "0367573933"},
+		SourceOfFunds: struct {
+			Types []string "json:\"types\""
+		}{Types: []string{"DD_SGTTVNVX", "DD_BIDVVNVX"}},
+		Device: struct {
+			IpAddress        string "json:\"ipAddress\""
+			Browser          string "json:\"browser\""
+			MobilePhoneModel string "json:\"mobilePhoneModel\""
+		}{IpAddress: "192.168.1.999", Browser: "Chrome", MobilePhoneModel: "nokia 1280"},
+		Locale: "vi",
+	}
+
+	jsonData, err := json.Marshal(bodyRequest)
+	if err != nil {
+		fmt.Println("Lỗi khi chuyển đổi thành JSON:", err)
+		return
+	}
+
+	hashPayload := sha256Hash([]byte(string(jsonData)))
+	contentDigest := "sha-256=:" + base64.StdEncoding.EncodeToString(hashPayload) + ":"
+
+	contentType := AppParam.APPLICATION_JSON
+
+	jsonLength := len(jsonData)
+	contentLength := strconv.Itoa(jsonLength)
+
+	stringToSign := GenerateStringToSign(method, path, contentType, contentLength, contentDigest, createTime, expireTime)
+
+	signature, err := Signature(stringToSign)
+	if err != nil {
+		fmt.Println("Error creating request:", err)
+		return
+	}
+
+	signatureInput := GenerateSignatureInput(method, createTime, expireTime)
+
+	headerRequest := map[string]string{
+		AppParam.CONTENT_TYPE:    contentType,
+		AppParam.CONTENT_LENGTH:  contentLength,
+		AppParam.CONTENT_DIGEST:  contentDigest,
+		AppParam.SIGNATURE_INPUT: signatureInput,
+		AppParam.SIGNATURE:       "sig=:" + signature + ":",
+	}
+
+	urlRequest := AppConfig.BaseUrl + path
+
+	fmt.Println("urlRequest: ", urlRequest)
+	fmt.Println("jsonDataRequest: ", string(jsonData))
+	fmt.Println("HeaderRequest: ", headerRequest)
+	fmt.Println("StringToSign: ", stringToSign)
+	fmt.Println("Signature-Input: ", signatureInput)
+	fmt.Println("signature: ", signature)
+
+	CallPutRequest(urlRequest, string(jsonData), headerRequest)
+}
+
 func TokenRegistration(merchantId string) {
 	method := "PUT"
 	// Get the current time
@@ -102,7 +187,7 @@ func TokenRegistration(merchantId string) {
 		BrowserPayment: struct {
 			ReturnURL   string "json:\"returnUrl\""
 			CallBackURL string "json:\"callbackUrl\""
-		}{ReturnURL: "https://dev.onepay.vn/ldp/direct-debit/result", CallBackURL: "https://dev.onepay.vn/paygate/api/rest/v1/ipn"},
+		}{ReturnURL: "https://mtf.onepay.vn/ldp/direct-debit/result", CallBackURL: "https://mtf.onepay.vn/paygate/api/rest/v1/ipn"},
 		Customer: struct {
 			Account struct {
 				ID string "json:\"id\""
@@ -339,7 +424,7 @@ func DeleteToken(merchantId string, merchantToken string) {
 		BrowserPayment: struct {
 			ReturnURL   string "json:\"returnUrl\""
 			CallBackURL string "json:\"callbackUrl\""
-		}{ReturnURL: "https://dev.onepay.vn/ldp/direct-debit/result", CallBackURL: "https://dev.onepay.vn/paygate/api/rest/v1/ipn"},
+		}{ReturnURL: "https://mtf.onepay.vn/ldp/direct-debit/result", CallBackURL: "https://mtf.onepay.vn/paygate/api/rest/v1/ipn"},
 		Customer: struct {
 			Account struct {
 				ID string "json:\"id\""

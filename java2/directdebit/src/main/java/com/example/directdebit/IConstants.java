@@ -22,4 +22,8 @@ public interface IConstants {
   String PAYMENTS_DDT = "payments_ddt";
   String DELETIONS = "deletions";
 
+  String RESPONSE_STATUS_CODE = "response_status_code";
+  String RESPONSE_MESSAGE = "response_message";
+  String RESPONSE_HEADERS = "response_headers";
+  String RESPONSE_CONTENT = "response_content";
 }

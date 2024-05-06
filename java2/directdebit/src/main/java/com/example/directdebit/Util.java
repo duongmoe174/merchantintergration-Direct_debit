@@ -8,8 +8,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import com.google.gson.JsonObject;
 
 public class Util {
   private static final Logger logger = Logger.getLogger(Util.class.getName());
@@ -94,6 +97,65 @@ public class Util {
 
     } catch (Exception e) {
       logger.info(e.getMessage());
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+  }
+
+  public static Map<String, Object> executePut2(String targetURL, Map<String, Object> headerMap,
+      String content) {
+    HttpURLConnection connection = null;
+    try {
+
+      Map<String, Object> responseData = new HashMap<>();
+
+      // Create connection
+      URL url = new URL(targetURL);
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("PUT");
+
+      // Set Header
+      for (Map.Entry<String, Object> entry : headerMap.entrySet()) {
+        String key = entry.getKey();
+        String value = entry.getValue().toString();
+        connection.setRequestProperty(key, value);
+      }
+
+      connection.setDoOutput(true);
+      // Send request
+      DataOutputStream wr = new DataOutputStream(
+          connection.getOutputStream());
+      wr.writeBytes(content);
+      wr.close();
+
+      // Get Response
+      BufferedReader in = new BufferedReader(
+          new InputStreamReader(connection.getInputStream()));
+      String inputLine;
+      StringBuilder contentStr = new StringBuilder();
+      while ((inputLine = in.readLine()) != null) {
+        contentStr.append(inputLine);
+      }
+      in.close();
+      logger.info("Response code: " + connection.getResponseCode());
+      logger.info("Response body: " + contentStr.toString());
+
+      String resStatusCode = String.valueOf(connection.getResponseCode());
+      String resMessage = String.valueOf(connection.getResponseMessage());
+      Map<String, List<String>> resHeaders = connection.getHeaderFields();
+      String resContent = contentStr.toString();
+
+      responseData.put(IConstants.RESPONSE_STATUS_CODE, resStatusCode);
+      responseData.put(IConstants.RESPONSE_MESSAGE, resMessage);
+      responseData.put(IConstants.RESPONSE_CONTENT, resContent);
+      responseData.put(IConstants.RESPONSE_HEADERS, resHeaders);
+
+      return responseData;
+    } catch (Exception e) {
+      logger.info(e.getMessage());
+      return null;
     } finally {
       if (connection != null) {
         connection.disconnect();
