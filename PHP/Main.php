@@ -5,7 +5,7 @@ include_once 'Config.php';
 
 function main()
 {
-    tokenRegistration();
+    paymentWithRegisteredToken();
 }
 
 function tokenRegistration()
@@ -27,7 +27,7 @@ function paymentWithRegisteredToken()
 {
     $api = new Api();
     $merchantId = Config::MERCHANT_ID;
-    $merchantToken = "TKN-OEWd62S2TOCJKzhSDMCWmg";
+    $merchantToken = "TKN-RXtBPUrZQaWYigVjJUaaBA";
     $api->paymentWithRegisterToken($merchantId, $merchantToken);
 }
 

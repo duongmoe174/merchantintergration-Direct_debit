@@ -182,7 +182,7 @@ namespace AppUtil
       return signMethod + "\n" + signPath + "\n" + signContentDigest + "\n" + signContentType + "\n"
           + signContentLength + "\n" + signParam;
     }
-
+    
     public static string GenerateStringToSign(string method, string path, string createTime, string expiresTime)
     {
       string signMethod = "\"@method\": " + method;

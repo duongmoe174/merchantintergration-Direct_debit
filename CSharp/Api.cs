@@ -26,7 +26,7 @@ namespace AppApi
 
             JsonObject browserPayment = new JsonObject();
             browserPayment.Add("returnUrl", "https://mtf.onepay.vn/ldp/direct-debit/result");
-            browserPayment.Add("callbackUrl", "https://webhook.site/8a44a824-8477-4086-8680-324a99ec8bc0");
+            browserPayment.Add("callbackUrl", "https://webhook.site/fd8c4bac-0271-4288-9bc6-094963a7c2eb");
 
             JsonObject customer = new JsonObject();
             JsonObject customerAccount = new JsonObject();
@@ -48,9 +48,11 @@ namespace AppApi
             sourceOfFunds.Add("types", jArrayTypes);
 
             JsonObject device = new JsonObject();
+            device.Add("id", "DV213124124");
             device.Add("ipAddress", "192.168.1.999");
             device.Add("browser", "Chrome");
             device.Add("mobilePhoneModel", "nokia 1280");
+            device.Add("fingerprint", "");
 
             bodyContent.Add("apiOperation", IConstants.TOKENIZE_DIRECT_DEBIT);
             bodyContent.Add("browserPayment", browserPayment);
@@ -155,11 +157,14 @@ namespace AppApi
             sourceOfFunds.Add("type", IConstants.DIRECT_DEBIT_TOKEN);
             sourceOfFunds.Add("token", merchantToken);
             transaction.Add("sourceOfFunds", sourceOfFunds);
+            transaction.Add("source", "MIT");
 
             JsonObject device = new JsonObject();
+            device.Add("id", "DV213124124");
             device.Add("ipAddress", "127.0.01");
             device.Add("browser", "IE");
             device.Add("mobilePhoneModel", "NOKIA 1280");
+            device.Add("fingerprint", "");
 
             bodyContent.Add("apiOperation", IConstants.PURCHASE_DIRECT_DEBIT);
             bodyContent.Add("invoice", invoice);
@@ -340,6 +345,21 @@ namespace AppApi
             Console.WriteLine("signature: " + signature);
 
             _ = Util.HttpGetRequest(urlRequest, headerRequest);
+        }
+
+        public static void MerchantVerifySignature()
+        {
+            //StringToSign: "@method": PUT
+            //"@path": /paygate/api/rest/v1/merchants/TESTONEPAY50/dd_tokens/DUONGTTTOKEN_1715055623
+            //"content-digest": sha-256=:guWFYpYSvOtofR/fyG5y01FkFIRyUTEqQ3b8PsGDhkY=:
+            //"content-type": application/json
+            //"content-length": 469
+            //"@signature-params": ("@method" "@path" "content-digest" "content-type" "content-length");created=1715055623;expires=1715055623300;keyid="TESTONEPAY50";alg="ed25519"
+
+            string signatureInputReq = "sig=(\"content-type\" \"content-length\" \"content-digest\");created=1715055633;expires=1715055933;keyid=\"TESTONEPAY50\";alg=\"ed25519\"";
+            string contentDigestReq = "sha-256=:3X0RSyVJr5/LtNKygzhc5XXf9rZ9RrFzVjTTYdjnM2w=:";
+            string signature = "sig=:ALuPV5VWiw+1ZbD9WcsiPTtOIRjX4dv454dEwC0dOVx727cQ25EwlMBLrn28tPgildP7uJ0UhpNJW3SqETndBw";
+            
         }
     }
 }

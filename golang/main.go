@@ -8,7 +8,7 @@ func main() {
 
 func tokenRegistration2() {
 	merchantId := AppConfig.MerchantId
-	TokenRegistration2(merchantId)
+	TokenRegistration(merchantId)
 }
 
 func tokenRegistration() {

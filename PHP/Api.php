@@ -22,7 +22,7 @@ class Api
 
     $bodyContent = [
       "browserPayment" => [
-        "callbackUrl" => "https://mtf.onepay.vn/paygate/api/rest/v1/ipn",
+        "callbackUrl" => "https://webhook.site/ff9e3e57-3021-4922-954d-32c94ef3c7e2",
         "returnUrl" => "https://mtf.onepay.vn/ldp/direct-debit/result"
       ],
       "apiOperation" => IConstants::TOKENIZE_DIRECT_DEBIT,
