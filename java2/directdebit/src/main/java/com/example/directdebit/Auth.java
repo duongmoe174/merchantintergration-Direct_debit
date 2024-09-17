@@ -25,14 +25,14 @@ public class Auth {
     return Base64.toBase64String(signatureBytes);
   }
 
-  public static boolean verifySign(String stringToSign, String signature) {
+  public static boolean verifySign(String stringToSign, String signatureIPNHeader) {
     byte[] publicKeyBytes = Base64.decode(MERCHANT_VERIFY_KEY);
     Ed25519PublicKeyParameters publicKeyParameters = new Ed25519PublicKeyParameters(publicKeyBytes, 0);
     Ed25519Signer verifier = new Ed25519Signer();
     verifier.init(false, publicKeyParameters);
     verifier.update(stringToSign.getBytes(), 0, stringToSign.length());
-
-    return verifier.verifySignature(Base64.decode(signature));
+    String trueSignature = Util.getSignatureIPNHeaders(signatureIPNHeader);
+    return verifier.verifySignature(Base64.decode(trueSignature));
   }
 
   public static void main(String[] args) {

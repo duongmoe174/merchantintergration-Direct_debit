@@ -390,25 +390,20 @@ public class Api {
 
   public static void verifyIPN() {
     try {
-      String path = "https://webhook.site/44bb401d-8768-4b74-ac83-1ce874b87e73";
       String signatureInputReq = "sig=(\"content-type\" \"content-length\" \"content-digest\");created=1726545759;expires=1726546059;keyid=\"TESTONEPAY50\";alg=\"ed25519\"";
       String contentDigestReq = "sha-256=:4QPXwxUM1GGvO5VIOPlXOAM1N+7eztDIOIkvQuh5QH8=:";
       String signatureReq = "sig=:vn8XYqappH1/SFmm4hFyzUBBbMSvcgPZf1uHQXODOh8+GDUi4ntzLkSnzi8KCaZfTEtmM3P1kNpRGUX0YDKsAQ==:";
       String contentReq = "{\"merchantId\":\"TESTONEPAY50\",\"merchTokenRef\":\"DUONGTTTOKEN_1726545744078\",\"token\":\"TKN-4-L8Wbv7SsWK-L1Orf2Q2w\",\"state\":\"approved\",\"customer\":{\"account\":{\"id\":\"000000001\"},\"email\":\"duongtt@onepay.vn\",\"name\":\"TRAN THAI DUONG\",\"phone\":\"0367573933\"},\"sourceOfFunds\":{\"type\":\"DD_BIDVVNVX\",\"provided\":{\"type\":\"account\",\"accountNumber\":\"xxx1241\",\"accountHolder\":\"TRAN THAI DUONG\"}}}";
 
-      String createdTimeReq = Util.getValue(signatureInputReq, "created");
-      String expiresTimeReq = Util.getValue(signatureInputReq, "expires");
-
       String contentType = IConstants.APPLICATION_JSON;
       String contentLength = String.valueOf(contentReq.length());
 
-      String stringToVerify = Util.generateStringToVerify(contentType, contentLength, contentDigestReq, signatureInputReq);
+      String stringToVerify = Util.generateStringToVerify(contentType, contentLength, contentDigestReq,
+          signatureInputReq);
 
-      boolean verifySignature = Auth.verifySign(stringToVerify, "vn8XYqappH1/SFmm4hFyzUBBbMSvcgPZf1uHQXODOh8+GDUi4ntzLkSnzi8KCaZfTEtmM3P1kNpRGUX0YDKsAQ==");
+      boolean verifySignature = Auth.verifySign(stringToVerify, signatureReq);
 
       System.out.println("stringToVerify: " + stringToVerify);
-      System.out.println("createTimeReq: " + createdTimeReq);
-      System.out.println("expiresTimeReq: " + expiresTimeReq);
       System.out.println("Content Length: " + contentLength);
       System.out.println("Request Signature: " + signatureReq);
       System.out.println("Verify Signature: " + verifySignature);

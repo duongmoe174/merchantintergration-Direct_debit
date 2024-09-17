@@ -272,12 +272,13 @@ public class Util {
   }
 
   /* Use for method PUT|POST */
-  public static String generateStringToVerify(String contentType, String contentLength, String contentDigest, String signatureInput) {
+  public static String generateStringToVerify(String contentType, String contentLength, String contentDigest,
+      String signatureInput) {
     String signContentType = "\"content-type\": " + contentType;
     String signContentLength = "\"content-length\": " + contentLength;
     String signContentDigest = "\"content-digest\": " + contentDigest;
-    String signParam = signatureInput.replaceAll("sig=",  "\"@signature-params\": ");
-    return  signContentType + "\n" + signContentLength + "\n" + signContentDigest + "\n" + signParam;
+    String signParam = signatureInput.replaceAll("sig=", "\"@signature-params\": ");
+    return signContentType + "\n" + signContentLength + "\n" + signContentDigest + "\n" + signParam;
   }
 
   /* Use for method GET */
@@ -314,8 +315,8 @@ public class Util {
     return header;
   }
 
-  public static String getValue(String input, String key) {
-    String pattern = key + "=(\\d+)";
+  public static String getSignatureIPNHeaders(String input) {
+    String pattern = "sig=:(.*?):";
     Pattern r = Pattern.compile(pattern);
     Matcher m = r.matcher(input);
     if (m.find()) {
