@@ -6,7 +6,7 @@ public class Program
 {
         static void Main(string[] agrs)
         {
-                TokenRegistration();
+                VerifyIPN();
         }
         private static void TokenRegistration()
         {
@@ -17,7 +17,7 @@ public class Program
         private static void RetrieveRegisteredTokenInformation()
         {
                 string merchantId = Config.MERCHANT_ID;
-                string merchantTokenRef = "DUONGTTTOKEN_1708486760333";
+                string merchantTokenRef = "DUONGTTTOKEN_1725599882840";
                 Api.RetrieveRegisteredTokenInformation(merchantId, merchantTokenRef);
         }
 
@@ -38,7 +38,7 @@ public class Program
         private static void DeleteToken()
         {
                 string merchantId = Config.MERCHANT_ID;
-                string merchantToken = "TKN-bTpVL1w5SYi21LyNsItkwA";
+                string merchantToken = "TKN-MSnKsaGqRxOJ_HfJmuq7sw";
                 Api.DeleteToken(merchantId, merchantToken);
         }
 
@@ -48,6 +48,11 @@ public class Program
                 string merchantToken = "TKN-bTpVL1w5SYi21LyNsItkwA";
                 string merchantDelRef = "DELETETOKEN_1708501951420";
                 Api.RetrieveTokenDeletionInfo(merchantId, merchantToken, merchantDelRef);
+        }
+
+        private static void VerifyIPN()
+        {
+                Api.MerchantVerifySignature();
         }
 }
 

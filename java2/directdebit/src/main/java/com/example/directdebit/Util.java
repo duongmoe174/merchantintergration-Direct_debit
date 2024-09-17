@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import com.google.gson.JsonObject;
 
 public class Util {
@@ -302,5 +303,15 @@ public class Util {
     header.put(IConstants.SIGNATURE, "sig=:" + signature + ":");
     header.put(IConstants.ACCEPT, "application/json, text/plain, */*");
     return header;
+  }
+
+  public static String getValue(String input, String key) {
+    String pattern = key + "=(\\d+)";
+    Pattern r = Pattern.compile(pattern);
+    Matcher m = r.matcher(input);
+    if (m.find()) {
+      return m.group(1);
+    }
+    return "";
   }
 }

@@ -26,5 +26,22 @@ namespace AuthDD
             string signatureBase64 = Convert.ToBase64String(signatureBytes);
             return signatureBase64;
         }
+
+        public static string VerifySign(string stringToSign)
+        {
+            byte[] keyBytes = Convert.FromBase64String(MERCHANT_VERIFY_KEY);
+            Ed25519PrivateKeyParameters privateKeyParameters = new Ed25519PrivateKeyParameters(keyBytes, 0);
+
+            ISigner signer = SignerUtilities.GetSigner("Ed25519");
+            signer.Init(true, privateKeyParameters);
+
+            byte[] stringToSignBytes = System.Text.Encoding.UTF8.GetBytes(stringToSign);
+
+            signer.BlockUpdate(stringToSignBytes, 0, stringToSignBytes.Length);
+            byte[] signatureBytes = signer.GenerateSignature();
+
+            string signatureBase64 = Convert.ToBase64String(signatureBytes);
+            return signatureBase64;
+        }
     }
 }

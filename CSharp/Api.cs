@@ -26,11 +26,11 @@ namespace AppApi
 
             JsonObject browserPayment = new JsonObject();
             browserPayment.Add("returnUrl", "https://mtf.onepay.vn/ldp/direct-debit/result");
-            browserPayment.Add("callbackUrl", "https://webhook.site/fd8c4bac-0271-4288-9bc6-094963a7c2eb");
+            browserPayment.Add("callbackUrl", "https://webhook.site/1ccd5e66-8a50-4ced-87f5-b16e2b837220");
 
             JsonObject customer = new JsonObject();
             JsonObject customerAccount = new JsonObject();
-            customerAccount.Add("id", "000000001");
+            customerAccount.Add("id", "000002111");
             customer.Add("account", customerAccount);
             customer.Add("email", "duongtt@onepay.vn");
             customer.Add("name", "TRAN THAI DUONG");
@@ -40,6 +40,9 @@ namespace AppApi
             List<string> types = new List<string>();
             types.Add("DD_SGTTVNVX");
             types.Add("DD_BIDVVNVX");
+            types.Add("DD_MSCBVNVX");
+            types.Add("DD_MCOBVNVX");
+            types.Add("DD_ICBVVNVX");
             JsonArray jArrayTypes = new JsonArray();
             foreach (string item in types)
             {
@@ -263,7 +266,7 @@ namespace AppApi
 
             JsonObject customer = new JsonObject();
             JsonObject customerAccount = new JsonObject();
-            customerAccount.Add("id", "000000001");
+            customerAccount.Add("id", "000002111");
             customer.Add("account", customerAccount);
             customer.Add("email", "duongtt@onepay.vn");
             customer.Add("name", "TRAN THAI DUONG");
@@ -356,10 +359,27 @@ namespace AppApi
             //"content-length": 469
             //"@signature-params": ("@method" "@path" "content-digest" "content-type" "content-length");created=1715055623;expires=1715055623300;keyid="TESTONEPAY50";alg="ed25519"
 
-            string signatureInputReq = "sig=(\"content-type\" \"content-length\" \"content-digest\");created=1715055633;expires=1715055933;keyid=\"TESTONEPAY50\";alg=\"ed25519\"";
-            string contentDigestReq = "sha-256=:3X0RSyVJr5/LtNKygzhc5XXf9rZ9RrFzVjTTYdjnM2w=:";
-            string signature = "sig=:ALuPV5VWiw+1ZbD9WcsiPTtOIRjX4dv454dEwC0dOVx727cQ25EwlMBLrn28tPgildP7uJ0UhpNJW3SqETndBw";
-            
+            string path = "https://webhook.site/1ccd5e66-8a50-4ced-87f5-b16e2b837220";
+            string signatureInputReq = "sig=(\"content-type\" \"content-length\" \"content-digest\");created=1726543348;expires=1726543648;keyid=\"TESTONEPAY50\";alg=\"ed25519\"";
+            string contentDigestReq = "sha-256=:zPqMJ4hddPRhlfuU8l9xTEo6JHrN5bVHpG4oVY6AIEE=:";
+            string signatureReq = "sig=:DEl9nT1TIeWAb+lZ9zVi3wcQc8WjpmpvKKoQcSSZ5bSGiEn/8FTZ2kwO4XRf17Ke7s0E6i+onq7porXOib8cAA==:";
+            string contentReq = "{\"merchantId\":\"TESTONEPAY50\",\"merchTokenRef\":\"DUONGTTTOKEN_1726543338203\",\"token\":\"TKN-eNPw3EDGQueidhV1MwM2Vw\",\"state\":\"approved\",\"customer\":{\"account\":{\"id\":\"000002111\"},\"email\":\"duongtt@onepay.vn\",\"name\":\"TRAN THAI DUONG\",\"phone\":\"0367573933\"},\"sourceOfFunds\":{\"type\":\"DD_SGTTVNVX\",\"provided\":{\"type\":\"card\",\"cardNumber\":\"970403xxx4098\",\"cardHolder\":\"TRAN THAI DUONG\"}}}";
+
+            string createTimeReq = Util.GetTimeCreatedAndExpiresValue(signatureInputReq, "created");
+            string expiresTimeReq = Util.GetTimeCreatedAndExpiresValue(signatureInputReq, "expires");
+
+            string contentType = IConstants.APPLICATION_JSON;
+            string contentLength = contentReq.Length.ToString();
+
+            string stringToSign = Util.GenerateStringToSign("POST", path, contentType, contentLength, contentDigestReq, createTimeReq, expiresTimeReq);
+            string verifySignature = "sig=:" + Auth.VerifySign(stringToSign) + ":";
+
+            Console.WriteLine("createTimeReq: " + createTimeReq);
+            Console.WriteLine("expiresTimeReq: " + expiresTimeReq);
+            Console.WriteLine("Content Length: " + contentLength);
+            Console.WriteLine("Request Signature: " + signatureReq);
+            Console.WriteLine("Verify Signature: " + verifySignature);
+
         }
     }
 }

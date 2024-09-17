@@ -4,6 +4,9 @@ using System.Security.Cryptography;
 using AppConfig;
 using AppParam;
 using System.Text.Json.Nodes;
+using System;
+using System.Text.RegularExpressions;
+
 namespace AppUtil
 {
   public class Util
@@ -182,7 +185,7 @@ namespace AppUtil
       return signMethod + "\n" + signPath + "\n" + signContentDigest + "\n" + signContentType + "\n"
           + signContentLength + "\n" + signParam;
     }
-    
+
     public static string GenerateStringToSign(string method, string path, string createTime, string expiresTime)
     {
       string signMethod = "\"@method\": " + method;
@@ -211,6 +214,17 @@ namespace AppUtil
       header.Add(IConstants.SIGNATURE_INPUT, signatureInput);
       header.Add(IConstants.SIGNATURE, "sig=:" + signature + ":");
       return header;
+    }
+
+    public static string GetTimeCreatedAndExpiresValue(string input, string key)
+    {
+      string pattern = $@"{key}=(\d+)";
+      Match match = Regex.Match(input, pattern);
+      if (match.Success)
+      {
+        return match.Groups[1].Value;
+      }
+      return string.Empty;
     }
   }
 }

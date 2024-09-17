@@ -9,10 +9,23 @@ import org.bouncycastle.util.encoders.Base64;
 public class Auth {
   public static final Logger logger = Logger.getLogger(Auth.class.getName());
 
-  public static final String FINAL_KEY = "yq6zIGeQK99dfX/pm8nLeq1e1tKmdfVTUmvjdtJKQ/VhVOzoGix3EwvAiqzPl7eCTb0vEyJQlzorLSaLOF4oDg==";
+  public static final String MERCHANT_SIGNING_KEY = "yq6zIGeQK99dfX/pm8nLeq1e1tKmdfVTUmvjdtJKQ/VhVOzoGix3EwvAiqzPl7eCTb0vEyJQlzorLSaLOF4oDg==";
+
+  public static final String MERCHANT_VERIFY_KEY = "eXsQS+RSrL97uMSKWS2BXEtZEeFAVMehteU/A6KyAIM=";
 
   public static String makeSign(String stringToSign) {
-    byte[] privateKeyBytes = Base64.decode(FINAL_KEY);
+    byte[] privateKeyBytes = Base64.decode(MERCHANT_SIGNING_KEY);
+    Ed25519PrivateKeyParameters privateKeyParameters = new Ed25519PrivateKeyParameters(privateKeyBytes, 0);
+    Ed25519Signer signer = new Ed25519Signer();
+    signer.init(true, privateKeyParameters);
+    byte[] stringToSignBytes = stringToSign.getBytes();
+    signer.update(stringToSignBytes, 0, stringToSignBytes.length);
+    byte[] signatureBytes = signer.generateSignature();
+    return Base64.toBase64String(signatureBytes);
+  }
+
+  public static String verifySign(String stringToSign) {
+    byte[] privateKeyBytes = Base64.decode(MERCHANT_VERIFY_KEY);
     Ed25519PrivateKeyParameters privateKeyParameters = new Ed25519PrivateKeyParameters(privateKeyBytes, 0);
     Ed25519Signer signer = new Ed25519Signer();
     signer.init(true, privateKeyParameters);

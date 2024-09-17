@@ -2,7 +2,7 @@ package com.example.directdebit;
 
 public class Main {
   public static void main(String[] args) {
-    tokenRegistration();
+    verifyIPN();
   }
 
   private static void tokenRegistration() {
@@ -40,5 +40,9 @@ public class Main {
     String merchantToken = "TKN-kbGluJFlRqWfnGcRzcb1Fg";
     String merchantDelRef = "DUONGTTTOKEN_1707986593103";
     Api.retrieveTokenDeletionInfo(merchantId, merchantToken, merchantDelRef);
+  }
+
+  private static void verifyIPN() {
+    Api.verifyIPN();
   }
 }
