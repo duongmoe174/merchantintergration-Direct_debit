@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.bouncycastle.util.Exceptions;
+
 import com.google.gson.Gson;
 
 public class Api {
@@ -398,15 +400,25 @@ public class Api {
       String contentType = IConstants.APPLICATION_JSON;
       String contentLength = String.valueOf(contentReq.length());
 
-      String stringToVerify = Util.generateStringToVerify(contentType, contentLength, contentDigestReq,
-          signatureInputReq);
+      // Check content-digest
+      byte[] hashPayload = Util.sha256Hash(contentReq);
+      String contentDigestVerify = "sha-256=:" + Base64.getEncoder().encodeToString(hashPayload) + ":";
+      if (!contentDigestReq.equals(contentDigestVerify)) {
+        throw new Exception("Content-Digest is invalid");
+      } else {
+        // check Signature
+        System.out.println("Content_Disgest is valid!");
+        String stringToVerify = Util.generateStringToVerify(contentType, contentLength, contentDigestReq,
+            signatureInputReq);
 
-      boolean verifySignature = Auth.verifySign(stringToVerify, signatureReq);
+        boolean verifySignature = Auth.verifySign(stringToVerify, signatureReq);
 
-      System.out.println("stringToVerify: " + stringToVerify);
-      System.out.println("Content Length: " + contentLength);
-      System.out.println("Request Signature: " + signatureReq);
-      System.out.println("Verify Signature: " + verifySignature);
+        System.out.println("stringToVerify: " + stringToVerify);
+        System.out.println("Content Length: " + contentLength);
+        System.out.println("Request Signature: " + signatureReq);
+        System.out.println("Verify Signature: " + verifySignature);
+
+      }
 
     } catch (Exception e) {
       logger.log(null, e.getMessage(), e);
