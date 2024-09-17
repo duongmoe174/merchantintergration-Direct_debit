@@ -32,7 +32,7 @@ public class Api {
 
       Map<String, Object> browserPayment = new HashMap<>();
       browserPayment.put("returnUrl", "https://mtf.onepay.vn/ldp/direct-debit/result");
-      browserPayment.put("callbackUrl", "https://mtf.onepay.vn/paygate/api/rest/v1/ipn");
+      browserPayment.put("callbackUrl", "https://webhook.site/bd8501d9-b123-4ec1-a1c9-1630ae0342e2");
 
       Map<String, Object> customer = new HashMap<>();
       Map<String, Object> customerAccount = new HashMap<>();
@@ -390,11 +390,11 @@ public class Api {
 
   public static void verifyIPN() {
     try {
-      String path = "https://webhook.site/1ccd5e66-8a50-4ced-87f5-b16e2b837220";
-      String signatureInputReq = "sig=(\"content-type\" \"content-length\" \"content-digest\");created=1726543348;expires=1726543648;keyid=\"TESTONEPAY50\";alg=\"ed25519\"";
-      String contentDigestReq = "sha-256=:zPqMJ4hddPRhlfuU8l9xTEo6JHrN5bVHpG4oVY6AIEE=:";
-      String signatureReq = "sig=:DEl9nT1TIeWAb+lZ9zVi3wcQc8WjpmpvKKoQcSSZ5bSGiEn/8FTZ2kwO4XRf17Ke7s0E6i+onq7porXOib8cAA==:";
-      String contentReq = "{\"merchantId\":\"TESTONEPAY50\",\"merchTokenRef\":\"DUONGTTTOKEN_1726543338203\",\"token\":\"TKN-eNPw3EDGQueidhV1MwM2Vw\",\"state\":\"approved\",\"customer\":{\"account\":{\"id\":\"000002111\"},\"email\":\"duongtt@onepay.vn\",\"name\":\"TRAN THAI DUONG\",\"phone\":\"0367573933\"},\"sourceOfFunds\":{\"type\":\"DD_SGTTVNVX\",\"provided\":{\"type\":\"card\",\"cardNumber\":\"970403xxx4098\",\"cardHolder\":\"TRAN THAI DUONG\"}}}";
+      String path = "https://webhook.site/44bb401d-8768-4b74-ac83-1ce874b87e73";
+      String signatureInputReq = "sig=(\"content-type\" \"content-length\" \"content-digest\");created=1726545759;expires=1726546059;keyid=\"TESTONEPAY50\";alg=\"ed25519\"";
+      String contentDigestReq = "sha-256=:4QPXwxUM1GGvO5VIOPlXOAM1N+7eztDIOIkvQuh5QH8=:";
+      String signatureReq = "sig=:vn8XYqappH1/SFmm4hFyzUBBbMSvcgPZf1uHQXODOh8+GDUi4ntzLkSnzi8KCaZfTEtmM3P1kNpRGUX0YDKsAQ==:";
+      String contentReq = "{\"merchantId\":\"TESTONEPAY50\",\"merchTokenRef\":\"DUONGTTTOKEN_1726545744078\",\"token\":\"TKN-4-L8Wbv7SsWK-L1Orf2Q2w\",\"state\":\"approved\",\"customer\":{\"account\":{\"id\":\"000000001\"},\"email\":\"duongtt@onepay.vn\",\"name\":\"TRAN THAI DUONG\",\"phone\":\"0367573933\"},\"sourceOfFunds\":{\"type\":\"DD_BIDVVNVX\",\"provided\":{\"type\":\"account\",\"accountNumber\":\"xxx1241\",\"accountHolder\":\"TRAN THAI DUONG\"}}}";
 
       String createdTimeReq = Util.getValue(signatureInputReq, "created");
       String expiresTimeReq = Util.getValue(signatureInputReq, "expires");
@@ -402,11 +402,11 @@ public class Api {
       String contentType = IConstants.APPLICATION_JSON;
       String contentLength = String.valueOf(contentReq.length());
 
-      String stringToSign = Util.generateStringToSign("POST", path, contentType, contentLength, contentDigestReq,
-          createdTimeReq, expiresTimeReq);
+      String stringToVerify = Util.generateStringToVerify(contentType, contentLength, contentDigestReq, signatureInputReq);
 
-      String verifySignature = Auth.verifySign(stringToSign);
+      boolean verifySignature = Auth.verifySign(stringToVerify, "vn8XYqappH1/SFmm4hFyzUBBbMSvcgPZf1uHQXODOh8+GDUi4ntzLkSnzi8KCaZfTEtmM3P1kNpRGUX0YDKsAQ==");
 
+      System.out.println("stringToVerify: " + stringToVerify);
       System.out.println("createTimeReq: " + createdTimeReq);
       System.out.println("expiresTimeReq: " + expiresTimeReq);
       System.out.println("Content Length: " + contentLength);

@@ -3,6 +3,7 @@ package com.example.directdebit;
 public class Main {
   public static void main(String[] args) {
     verifyIPN();
+    // tokenRegistration();
   }
 
   private static void tokenRegistration() {

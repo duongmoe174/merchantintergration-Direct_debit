@@ -271,6 +271,15 @@ public class Util {
         + signContentLength + "\n" + signParam;
   }
 
+  /* Use for method PUT|POST */
+  public static String generateStringToVerify(String contentType, String contentLength, String contentDigest, String signatureInput) {
+    String signContentType = "\"content-type\": " + contentType;
+    String signContentLength = "\"content-length\": " + contentLength;
+    String signContentDigest = "\"content-digest\": " + contentDigest;
+    String signParam = signatureInput.replaceAll("sig=",  "\"@signature-params\": ");
+    return  signContentType + "\n" + signContentLength + "\n" + signContentDigest + "\n" + signParam;
+  }
+
   /* Use for method GET */
   public static String generateStringToSign(String method, String path, String createTime, String expiresTime) {
 

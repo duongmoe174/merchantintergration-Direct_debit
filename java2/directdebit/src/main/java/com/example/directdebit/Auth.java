@@ -3,6 +3,7 @@ package com.example.directdebit;
 import java.util.logging.Logger;
 
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
+import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
 import org.bouncycastle.crypto.signers.Ed25519Signer;
 import org.bouncycastle.util.encoders.Base64;
 
@@ -24,15 +25,14 @@ public class Auth {
     return Base64.toBase64String(signatureBytes);
   }
 
-  public static String verifySign(String stringToSign) {
-    byte[] privateKeyBytes = Base64.decode(MERCHANT_VERIFY_KEY);
-    Ed25519PrivateKeyParameters privateKeyParameters = new Ed25519PrivateKeyParameters(privateKeyBytes, 0);
-    Ed25519Signer signer = new Ed25519Signer();
-    signer.init(true, privateKeyParameters);
-    byte[] stringToSignBytes = stringToSign.getBytes();
-    signer.update(stringToSignBytes, 0, stringToSignBytes.length);
-    byte[] signatureBytes = signer.generateSignature();
-    return Base64.toBase64String(signatureBytes);
+  public static boolean verifySign(String stringToSign, String signature) {
+    byte[] publicKeyBytes = Base64.decode(MERCHANT_VERIFY_KEY);
+    Ed25519PublicKeyParameters publicKeyParameters = new Ed25519PublicKeyParameters(publicKeyBytes, 0);
+    Ed25519Signer verifier = new Ed25519Signer();
+    verifier.init(false, publicKeyParameters);
+    verifier.update(stringToSign.getBytes(), 0, stringToSign.length());
+
+    return verifier.verifySignature(Base64.decode(signature));
   }
 
   public static void main(String[] args) {
