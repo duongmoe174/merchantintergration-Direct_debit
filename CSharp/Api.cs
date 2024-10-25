@@ -350,36 +350,42 @@ namespace AppApi
             _ = Util.HttpGetRequest(urlRequest, headerRequest);
         }
 
-        public static void MerchantVerifySignature()
+        public static void VerifyIPN()
         {
-            //StringToSign: "@method": PUT
-            //"@path": /paygate/api/rest/v1/merchants/TESTONEPAY50/dd_tokens/DUONGTTTOKEN_1715055623
-            //"content-digest": sha-256=:guWFYpYSvOtofR/fyG5y01FkFIRyUTEqQ3b8PsGDhkY=:
-            //"content-type": application/json
-            //"content-length": 469
-            //"@signature-params": ("@method" "@path" "content-digest" "content-type" "content-length");created=1715055623;expires=1715055623300;keyid="TESTONEPAY50";alg="ed25519"
+            try
+            {
+                string signatureInputReq = "sig=(\"content-type\" \"content-length\" \"content-digest\");created=1726545759;expires=1726546059;keyid=\"TESTONEPAY50\";alg=\"ed25519\"";
+                string contentDigestReq = "sha-256=:4QPXwxUM1GGvO5VIOPlXOAM1N+7eztDIOIkvQuh5QH8=:";
+                string signatureReq = "sig=:vn8XYqappH1/SFmm4hFyzUBBbMSvcgPZf1uHQXODOh8+GDUi4ntzLkSnzi8KCaZfTEtmM3P1kNpRGUX0YDKsAQ==:";
+                string contentReq = "{\"merchantId\":\"TESTONEPAY50\",\"merchTokenRef\":\"DUONGTTTOKEN_1726545744078\",\"token\":\"TKN-4-L8Wbv7SsWK-L1Orf2Q2w\",\"state\":\"approved\",\"customer\":{\"account\":{\"id\":\"000000001\"},\"email\":\"duongtt@onepay.vn\",\"name\":\"TRAN THAI DUONG\",\"phone\":\"0367573933\"},\"sourceOfFunds\":{\"type\":\"DD_BIDVVNVX\",\"provided\":{\"type\":\"account\",\"accountNumber\":\"xxx1241\",\"accountHolder\":\"TRAN THAI DUONG\"}}}";
 
-            string path = "https://webhook.site/1ccd5e66-8a50-4ced-87f5-b16e2b837220";
-            string signatureInputReq = "sig=(\"content-type\" \"content-length\" \"content-digest\");created=1726543348;expires=1726543648;keyid=\"TESTONEPAY50\";alg=\"ed25519\"";
-            string contentDigestReq = "sha-256=:zPqMJ4hddPRhlfuU8l9xTEo6JHrN5bVHpG4oVY6AIEE=:";
-            string signatureReq = "sig=:DEl9nT1TIeWAb+lZ9zVi3wcQc8WjpmpvKKoQcSSZ5bSGiEn/8FTZ2kwO4XRf17Ke7s0E6i+onq7porXOib8cAA==:";
-            string contentReq = "{\"merchantId\":\"TESTONEPAY50\",\"merchTokenRef\":\"DUONGTTTOKEN_1726543338203\",\"token\":\"TKN-eNPw3EDGQueidhV1MwM2Vw\",\"state\":\"approved\",\"customer\":{\"account\":{\"id\":\"000002111\"},\"email\":\"duongtt@onepay.vn\",\"name\":\"TRAN THAI DUONG\",\"phone\":\"0367573933\"},\"sourceOfFunds\":{\"type\":\"DD_SGTTVNVX\",\"provided\":{\"type\":\"card\",\"cardNumber\":\"970403xxx4098\",\"cardHolder\":\"TRAN THAI DUONG\"}}}";
+                string contentType = IConstants.APPLICATION_JSON;
+                string contentLength = contentReq.Length.ToString();
 
-            string createTimeReq = Util.GetTimeCreatedAndExpiresValue(signatureInputReq, "created");
-            string expiresTimeReq = Util.GetTimeCreatedAndExpiresValue(signatureInputReq, "expires");
-
-            string contentType = IConstants.APPLICATION_JSON;
-            string contentLength = contentReq.Length.ToString();
-
-            string stringToSign = Util.GenerateStringToSign("POST", path, contentType, contentLength, contentDigestReq, createTimeReq, expiresTimeReq);
-            string verifySignature = "sig=:" + Auth.VerifySign(stringToSign) + ":";
-
-            Console.WriteLine("createTimeReq: " + createTimeReq);
-            Console.WriteLine("expiresTimeReq: " + expiresTimeReq);
-            Console.WriteLine("Content Length: " + contentLength);
-            Console.WriteLine("Request Signature: " + signatureReq);
-            Console.WriteLine("Verify Signature: " + verifySignature);
-
+                //Check content-digest
+                byte[] hashPayload = Util.Sha256Hash(contentReq);
+                string contentDigestVerify = "sha-256=:" + Convert.ToBase64String(hashPayload) + ":";
+                if (!contentDigestReq.Equals(contentDigestVerify))
+                {
+                    throw new Exception("Content-Digest is invalid");
+                }
+                else
+                {
+                    //check Signature
+                    Console.WriteLine("Content-Digest is Valid");
+                    Console.WriteLine("======Start verify signature======");
+                    string stringToVerify = Util.GenerateStringToSign(contentType, contentLength, contentDigestReq, signatureInputReq);
+                    string trueSignature = Util.GetSignatureReq(signatureReq);
+                    bool verifySignature = Auth.VerifySign(stringToVerify, trueSignature);
+                    Console.WriteLine("SignatureReq: " + trueSignature);
+                    Console.WriteLine("String To Verify: " + stringToVerify);
+                    Console.WriteLine("Verify Signature: " + verifySignature);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

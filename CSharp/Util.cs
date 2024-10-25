@@ -197,6 +197,16 @@ namespace AppUtil
       return signMethod + "\n" + signPath + "\n" + signParam;
     }
 
+    public static string GenerateStringToVerify(string contentType, string contentLength, string contentDigest,
+  string signatureInput)
+    {
+      string signContentType = "\"content-type\": " + contentType;
+      string signContentLength = "\"content-length\": " + contentLength;
+      string signContentDigest = "\"content-digest\": " + contentDigest;
+      string signParam = signatureInput.Replace("sig=", "\"@signature-params\": ");
+      return signContentType + "\n" + signContentLength + "\n" + signContentDigest + "\n" + signParam;
+    }
+
     public static Dictionary<string, string> CreateHeaderRequest(string signatureInput, string signature)
     {
       Dictionary<string, string> header = new Dictionary<string, string>();
@@ -216,10 +226,11 @@ namespace AppUtil
       return header;
     }
 
-    public static string GetTimeCreatedAndExpiresValue(string input, string key)
+    public static string GetSignatureReq(string input)
     {
-      string pattern = $@"{key}=(\d+)";
-      Match match = Regex.Match(input, pattern);
+      string pattern = "sig=:(.*?):";
+      Regex regex = new Regex(pattern);
+      Match match = regex.Match(input);
       if (match.Success)
       {
         return match.Groups[1].Value;

@@ -34,13 +34,13 @@ public class Api {
 
       Map<String, Object> browserPayment = new HashMap<>();
       browserPayment.put("returnUrl", "https://mtf.onepay.vn/ldp/direct-debit/result");
-      browserPayment.put("callbackUrl", "https://webhook.site/bd8501d9-b123-4ec1-a1c9-1630ae0342e2");
+      browserPayment.put("callbackUrl", "https://webhook.site/02fb1eda-7122-4db8-ab03-b4dc13d6b157");
 
       Map<String, Object> customer = new HashMap<>();
       Map<String, Object> customerAccount = new HashMap<>();
-      customerAccount.put("id", "000000001");
+      customerAccount.put("id", "000020031");
       customer.put("account", customerAccount);
-      customer.put("email", "duongtt@onepay.vn");
+      // customer.put("email", "duongtt@onepay.vn");
       customer.put("name", "TRAN THAI DUONG");
       customer.put("phone", "0367573933");
 
@@ -48,6 +48,9 @@ public class Api {
       List<String> types = new ArrayList<>();
       types.add("DD_SGTTVNVX");
       types.add("DD_BIDVVNVX");
+      types.add("DD_MSCBVNVX");
+      types.add("DD_MCOBVNVX");
+      types.add("DD_ICBVVNVX");
       sourceOfFunds.put("types", types);
 
       Map<String, Object> device = new HashMap<>();
@@ -59,7 +62,7 @@ public class Api {
       bodyContent.put("browserPayment", browserPayment);
       bodyContent.put("customer", customer);
       bodyContent.put("sourceOfFunds", sourceOfFunds);
-      bodyContent.put("device", device);
+      // bodyContent.put("device", device);
       bodyContent.put("locale", "vi");
       /* ========== End create bodyContent ========== */
 
@@ -184,6 +187,7 @@ public class Api {
       sourceOfFunds.put("type", IConstants.DIRECT_DEBIT_TOKEN);
       sourceOfFunds.put("token", merchantToken);
       transaction.put("sourceOfFunds", sourceOfFunds);
+      transaction.put("source", "MIT");
 
       Map<String, Object> device = new HashMap<>();
       device.put("ipAddress", "127.0.01");
@@ -194,7 +198,7 @@ public class Api {
       bodyContent.put("invoice", invoice);
       bodyContent.put("customer", customer);
       bodyContent.put("transaction", transaction);
-      bodyContent.put("device", device);
+      // bodyContent.put("device", device);
       /* ========== End create bodyContent ========== */
 
       Gson gson = new Gson();
@@ -294,7 +298,7 @@ public class Api {
 
       Map<String, Object> browserPayment = new HashMap<>();
       browserPayment.put("returnUrl", "https://mtf.onepay.vn/ldp/direct-debit/result");
-      browserPayment.put("callbackUrl", "https://mtf.onepay.vn/paygate/api/rest/v1/ipn");
+      browserPayment.put("callbackUrl", "https://webhook.site/6211e954-5f1c-4998-bcb8-4dc62ad37fab");
 
       Map<String, Object> customer = new HashMap<>();
       Map<String, Object> customerAccount = new HashMap<>();
@@ -312,7 +316,7 @@ public class Api {
       bodyContent.put("apiOperation", IConstants.DELETE_TOKEN_DIRECT_DEBIT);
       bodyContent.put("browserPayment", browserPayment);
       bodyContent.put("customer", customer);
-      bodyContent.put("device", device);
+      // bodyContent.put("device", device);
       bodyContent.put("locale", "vi");
       /* ========== END CREATE BODY CONTENT ========== */
 

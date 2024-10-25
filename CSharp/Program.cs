@@ -52,7 +52,7 @@ public class Program
 
         private static void VerifyIPN()
         {
-                Api.MerchantVerifySignature();
+                Api.VerifyIPN();
         }
 }
 

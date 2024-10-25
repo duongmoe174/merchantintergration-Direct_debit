@@ -1,0 +1,39 @@
+const MERCHANTS = "merchants";
+const DD_TOKENS = "dd_tokens";
+const PAYMENTS_DDT = "payments_ddt";
+const TOKENIZE_DIRECT_DEBIT = "TOKENIZE_DIRECT_DEBIT";
+const DIRECT_DEBIT_TOKEN = "DIRECT_DEBIT_TOKEN";
+const PURCHASE_DIRECT_DEBIT = "PURCHASE_DIRECT_DEBIT";
+const APPLICATION_JSON = "application/json";
+const CONTENT_TYPE = "Content-Type";
+const CONTENT_LENGTH = "Content-Length";
+const CONTENT_DIGEST = "Content-Digest";
+const SIGNATURE_INPUT = "Signature-Input";
+const SIGNATURE = "Signature";
+const DELETE_TOKEN_DIRECT_DEBIT = "DELETE_TOKEN_DIRECT_DEBIT";
+const DELETIONS = "deletions";
+const MERCHANT = "merchant";
+const POST = "POST";
+const PUT = "PUT";
+const GET = "GET";
+
+module.exports = {
+  MERCHANTS,
+  DD_TOKENS,
+  PAYMENTS_DDT,
+  TOKENIZE_DIRECT_DEBIT,
+  DIRECT_DEBIT_TOKEN,
+  PURCHASE_DIRECT_DEBIT,
+  APPLICATION_JSON,
+  CONTENT_TYPE,
+  CONTENT_LENGTH,
+  CONTENT_DIGEST,
+  SIGNATURE_INPUT,
+  SIGNATURE,
+  DELETE_TOKEN_DIRECT_DEBIT,
+  DELETIONS,
+  MERCHANT,
+  POST,
+  PUT,
+  GET,
+};
