@@ -374,7 +374,7 @@ namespace AppApi
                     //check Signature
                     Console.WriteLine("Content-Digest is Valid");
                     Console.WriteLine("======Start verify signature======");
-                    string stringToVerify = Util.GenerateStringToSign(contentType, contentLength, contentDigestReq, signatureInputReq);
+                    string stringToVerify = Util.GenerateStringToVerify(contentType, contentLength, contentDigestReq, signatureInputReq);
                     string trueSignature = Util.GetSignatureReq(signatureReq);
                     bool verifySignature = Auth.VerifySign(stringToVerify, trueSignature);
                     Console.WriteLine("SignatureReq: " + trueSignature);
